@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+ {{ news_item.title }} :: {{ block.super }}
+{% endblock %}
+
+{% block sidebar %} 
+{% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+{% block content%} 
+  <div class="card mb-3">
+      <div class="card-header">
+      Категория: <a href="{{ news_item.category.get_absolute_url }}">{{ news_item.category }}</a>
+      </div>
+      <div class="card-body">
+          <div class="media-body">
+            {% if news_item.photo %}
+            <img src="{{ news_item.photo.url }}" alt="" width="240" class="float-left mr-3">
+            {% else %}
+            <img src="https://nudefood.kitchen/wp-content/uploads/2020/10/1_ddyz8qnOhFeFKY-_c3tleQ-1007x1024.jpeg" alt="" width="240" class="float-left mr-3">
+            {% endif %}
+
+        <h5 class="card-title">{{ news_item.title }}</h5>
+        <p class="card-text">{{ news_item.content|safe|linebreaks }}</p>
+          </div>
+        
+        </div>
+      <div class="card-footer text-muted">
+        Опубликовано {{ news_item.created_at|timesince }} назад
+      </div>
+    </div>
+{% endblock %}
