@@ -1,7 +1,17 @@
 body{
-    background-color: #fefefe;
+  background-color: #fefefe;
+  height: 100%;
+  diplay: flex;
 }
 
 .errorlist{
-    color: red;
+  color: red;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: #fafafa;
+  border-top: solid 1px #eee;
 }

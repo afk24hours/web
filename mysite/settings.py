@@ -12,6 +12,24 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 
+#Sentry
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+sentry_sdk.init(
+    dsn="https://5e96025fe5f1427dadf6f2e129d5b50d@o504343.ingest.sentry.io/5591047",
+    integrations=[DjangoIntegration()],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production,
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,9 +41,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'ehzacl#avpt#g99vs&2okl$%zwbnle@rtyc&wa3iprxx+d9&&('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','localhost','afk24hours.me']
 
 
 # Application definition
@@ -37,7 +55,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'debug_toolbar',
     'ckeditor',
     'ckeditor_uploader',
     'captcha',
@@ -52,7 +69,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -81,13 +97,12 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        #'ENGINE': 'django.db.backends.mysql',
-        #'NAME':'django',
-        #'USER':,
-        #'PASSWORD':,
-        #'localhost',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME':'mysite',
+        'USER':'mysite',
+        'PASSWORD':'Bongo1995',
+        'HOST':'localhost',
+	'PORT':'',
     }
 }
 
@@ -137,10 +152,6 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-INTERNAL_IPS = [
-    '127.0.0.1',
-]
-
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = "465" #2525
 EMAIL_HOST_USER = 'tdjango@yandex.ru'
@@ -152,8 +163,8 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 
 CKEDITOR_CONFIGS = {
     'default': {
-        'skin': 'moono',
-        #'skin': 'moono-lisa',
+        #'skin': 'moono',
+        'skin': 'moono-lisa',
         'toolbar_Basic': [
             ['Source', '-', 'Bold', 'Italic']
         ],
@@ -217,10 +228,3 @@ CKEDITOR_CONFIGS = {
 
 CAPTCHA_NOISE_FUNCTIONS = None
 CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'
-
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': os.path.join(BASE_DIR,'django_cache'),
-    }
-}
