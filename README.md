@@ -1,1 +1,1 @@
-# mysite
+afk24hours.me
